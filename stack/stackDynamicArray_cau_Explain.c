@@ -25,7 +25,7 @@ int main() {
 	Data* data1 = (Data*)malloc(sizeof(Data));
 	data1->num = 10;
 	char c1[10] = "hwang";
-	data1->name = (char*)malloc(sizeof(char) * 20);
+	data1->name = (char*)malloc(strlen(c1)+1);
 	strcpy_s(data1->name, strlen(c1) + 1, c1);
 
 	// stack에 data1 넣기
@@ -44,7 +44,7 @@ int main() {
 	Data* data2 = (Data*)malloc(sizeof(Data));
 	data2->num = 20;
 	char c2[10] = "youngjin";
-	data2->name = (char*)malloc(sizeof(char) * 20);
+	data2->name = (char*)malloc(strlen(c2)+1);
 	strcpy_s(data2->name, strlen(c2) + 1, c2);
 
 	//// stack에 data2 넣기
