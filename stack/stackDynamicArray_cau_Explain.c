@@ -59,7 +59,16 @@ int main() {
 	Data* su2 = (Data*)stack->buf[0];
 	printf("%d, %s\n", su2->num, su2->name);
 
+	// data1,data2 메모리 반환
+	free(data1->name);
+	free(data1);
 
+	free(data2->name);
+	free(data2);
+
+	//// stack 메모리 반환
+	free(stack->buf);
+	free(stack);
 	return 0;
 }
 
