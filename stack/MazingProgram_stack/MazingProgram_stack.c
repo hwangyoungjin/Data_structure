@@ -5,8 +5,10 @@
 #define MAX 300
 #define EXIT_ROW 12
 #define EXIT_COL 15
+#define START_POINT 2
 #define PLAYER 2
 #define STOP 9
+#define END_POINT 0
 
 
 typedef struct offset { // 각 방향에 대한 이동 배열
@@ -53,9 +55,9 @@ int mark[14][17] = {
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-int maze[14][17] = {
+short maze[14][17] = {
 	{5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,6},
-	{3,PLAYER,1,0,0,0,1,1,0,0,0,1,1,1,1,1,3},
+	{3,START_POINT,1,0,0,0,1,1,0,0,0,1,1,1,1,1,3},
 	{3,1,0,0,0,1,1,0,1,1,1,0,0,1,1,1,3},
 	{3,0,1,1,0,0,0,0,1,1,1,1,0,0,1,1,3},
 	{3,1,1,0,1,1,1,1,0,1,1,0,1,1,0,0,3},
@@ -66,7 +68,7 @@ int maze[14][17] = {
 	{3,0,0,1,1,0,1,1,0,1,1,1,1,1,0,1,3},
 	{3,1,1,0,0,0,1,1,0,1,1,0,0,0,0,0,3},
 	{3,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,3},
-	{3,0,1,0,0,1,1,1,1,1,0,1,1,1,1,0,3},
+	{3,0,1,0,0,1,1,1,1,1,0,1,1,1,1,END_POINT,3},
 	{7,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,8}
 };
 
@@ -75,9 +77,10 @@ int IsFull(); // return true iff stack has no remaining capacity
 void Push(element position); // add an element to the top of the stack
 element Pop(); //delete the top element of the stack and return element of top
 void mazeOutput(); // maze print
-void path(void); // 길을찾아 출력
+void path(void); // Get Directions
 
 int main() {
+	printf("\n20186757 Hwang Young Jin\n");
 	mazeOutput();
 	int choice;
 	printf("\nChoice : ");
@@ -164,7 +167,7 @@ void path(void) { // 길을찾아 출력
 		curPosition = Pop(); // 더이상 갈 곳이 없으니 이전에 있던 곳으로 돌아가기
 		row = curPosition.row;
 		col = curPosition.col;
-		dir = curPosition.dir;   // 0~div(ex.2) 검사끝, 다시 div(ex.2) 부터 다시 7까지 검사
+		dir = curPosition.dir;   // 0~div(ex.2) 검사끝, div+1(ex.3) 부터 다시 7까지 검사
 
 
 		while (dir < 8 && !found) { 
@@ -185,7 +188,7 @@ void path(void) { // 길을찾아 출력
 				/*이동할 것이므로 현재 위치와 방향 저장*/
 				curPosition.row = row;
 				curPosition.col = col;
-				curPosition.dir = dir; 
+				curPosition.dir = ++dir; 
 				
 				
 				Push(curPosition);
@@ -251,7 +254,7 @@ void Push(element curPosition) { // O(1)
 		printf("\nCannot add element\n");
 	}
 	else {
-		maze[curPosition.row][curPosition.col] = PLAYER;
+		maze[curPosition.row][curPosition.col] = PLAYER; //위치 표시 하기
 		top++;
 		stack[top].row = curPosition.row;
 		stack[top].col = curPosition.col;
