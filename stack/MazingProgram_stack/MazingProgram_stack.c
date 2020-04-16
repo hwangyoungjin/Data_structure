@@ -77,25 +77,34 @@ int IsFull(); // return true iff stack has no remaining capacity
 void Push(element position); // add an element to the top of the stack
 element Pop(); //delete the top element of the stack and return element of top
 void mazeOutput(); // maze print
-void path(void); // Get Directions
+void path(void); // Search a maze
 
 int main() {
 	printf("\n20186757 Hwang Young Jin\n");
 	mazeOutput();
-	int choice;
-	printf("\nChoice : ");
-	scanf_s("%d", &choice);
-	switch (choice) {
-	case 1: 
-	{
-		mazeOutput();
-		break;
-	}
-	case 2:
-		path();
-		break;
-	case 0:
-		exit(0);
+	while (1) {
+
+		printf("\n ------------------------------");
+		printf("\n - 1. Search a maze           -");
+		printf("\n - 2. Print a successful path -");
+		printf("\n - 0. Quit this program       -");
+		printf("\n ------------------------------");
+
+		int choice;
+		printf("\nChoice : ");
+		scanf_s("%d", &choice);
+		switch (choice) {
+		case 1:
+		{
+			path();
+			break;
+		}
+		case 2:
+			mazeOutput();
+			break;
+		case 0:
+			exit(0);
+		}
 	}
 	return 0;
 }
@@ -142,12 +151,6 @@ void mazeOutput() {
 			}
 		}
 	}
-	printf("\n ------------------------------");
-	printf("\n - 1. Search a maze           -");
-	printf("\n - 2. Print a successful path -");
-	printf("\n - 0. Quit this program       -");
-	printf("\n ------------------------------");
-
 }
 
 void path(void) { // 길을찾아 출력
@@ -218,7 +221,6 @@ void path(void) { // 길을찾아 출력
 	
 	
 	if (found) {
-		mazeOutput();
 		printf("\nThe path is : \n");
 		printf("row col\n");
 		for (i = 0; i <= top; i++) {
