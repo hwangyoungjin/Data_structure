@@ -14,12 +14,13 @@ int main() {
 	printf("Enter the expression :: ");
 	scanf_s("%s", exp, sizeof(exp));
 	e = exp;
-	while (*e != '\0') {
+	/*Check from the front*/
+	while (*e != '\0') { // numeric is stored in stack // if select operator, then calculation
 		if (isdigit(*e)) { //Determine if character is numeric
 			num = *e - 48;
 			push(num);
 		}
-		else {
+		else { //operator selected  // caluration and phsh() after second pop()
 			n1 = pop();
 			n2 = pop();
 			switch (*e) {
