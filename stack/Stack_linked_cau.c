@@ -108,7 +108,6 @@ void destroy() {
 		top1 = top1->ptr;
 	}
 	free(top);
-	printf("top->info : %d", top->info);
 	top = NULL;
 	printf("\n All stack elements destroyed");
 	count = 0;
