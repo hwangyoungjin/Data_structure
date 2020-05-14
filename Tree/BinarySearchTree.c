@@ -8,8 +8,9 @@ typedef struct TreeNode {
 	struct TreeNode* left, * right;
 }TreeNode;
 
+
 /*순환적 탐색*/
-TreeNode* search(TreeNode* node, int key) {
+TreeNode* search(TreeNode* node, int key) { //O(h)
 	if (node == NULL) {
 		return NULL;
 	}
@@ -24,14 +25,14 @@ TreeNode* search(TreeNode* node, int key) {
 	}
 }
 
-TreeNode* new_node(int item) {
+TreeNode* new_node(int item) { 
 	TreeNode* temp = (TreeNode*)malloc(sizeof(TreeNode));
 	temp->key = item;
 	temp->left = temp->right = NULL;
 	return temp;
 }
 
-TreeNode* insert_node(TreeNode* node, int key) {
+TreeNode* insert_node(TreeNode* node, int key) { //O(h)
 	//트리가 공백이면 새로운 node 반환
 	if (node == NULL) {
 		return new_node(key);
@@ -67,7 +68,7 @@ TreeNode* max_value(TreeNode* node) {
 }
 
 /*key 값의 해당하는 node를 삭제하고 반환*/
-TreeNode* delete_node(TreeNode* root, int key) { 
+TreeNode* delete_node(TreeNode* root, int key) { //O(h)
 	if (root == NULL) {
 		return root;
 	}
