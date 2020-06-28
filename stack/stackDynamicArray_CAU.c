@@ -1,44 +1,49 @@
-#include <stdio.h>
+ï»¿#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 
-typedef void* Element; //void* Çü½ÄÀ» ElementÇü½Ä ¸íÀ¸·Î Á¤ÀÇ , Element´Â data*¸¦ ¹Þ´Â´Ù. 
+typedef void* Element; //void* í˜•ì‹ì„ Elementí˜•ì‹ ëª…ìœ¼ë¡œ ì •ì˜ 
+//ElementëŠ” data*ë¥¼ ë°›ê¸° ë•Œë¬¸ 
+//dataê°€ êµ¬ì¡°ì²´ê°€ ì•„ë‹Œ intí˜• í•˜ë‚˜ë¼ë©´ typedef int elementë¡œ ê°€ëŠ¥
+
+typedef struct Data { 
+	int num;
+	char* name;
+}Data;
 
 typedef struct Stack {
-	Element* buf; //void**
+	Element* buf; //bufëŠ” ëª¨ë“  ë°ì´í„°ë¥¼ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„°ì´ì–´ì•¼ í•œë‹¤.
+	// bufëŠ” extendì— ì˜í•´ ê³„ì† ì»¤ì§„ë‹¤.
 	int ssize;
 	int top;
 }Stack;
 
-typedef struct Data {
-	int num;
-	char* name;
-}Data;
+
 
 
 
 int IsEmpty(Stack* stack); // return true iff stack is empty
 int IsFull(Stack* stack); // return true iff stack has no remaining capacity
+void Expand(Stack* stack); // stack IsFull == trueì¸ ê²½ìš° buf í™•ìž¥
 void Push(Stack* stack, Element data); // add an element to the top of the stack
 Element Pop(Stack* stack); //return the top element of the stack
+void DeleteData(Data* data); //	data ì‚­ì œ free(data->name); ì—ì„œ ì™œ ì˜¤ë¥˜ê°€ ë‚˜ëŠ”ì§€..?
+void DeleteStack(Stack* stack); // stack ë©”ëª¨ë¦¬ ë°˜í™˜
 
 
-void Expand(Stack* stack); // stack IsFull == trueÀÎ °æ¿ì buf È®Àå
-Stack* NewStack(); //stack »ý¼º
-void InitStack(Stack* stack, int ssize); // stack buf size 1 ÃÊ±âÈ­
-void DeleteStack(Stack* stack); // stack ¸Þ¸ð¸® ¹ÝÈ¯
+Stack* NewStack(); //stack ìƒì„±
+void InitStack(Stack* stack, int ssize); // stack buf size 1 ì´ˆê¸°í™”
+Data* NewData(int num, const char* name); // data ìƒì„±
 
-Data* NewData(int num, const char* name); // data »ý¼º
-void DeleteData(Data* data); //	data »èÁ¦ free(data->name); ¿¡¼­ ¿Ö ¿À·ù°¡ ³ª´ÂÁö..?
-void ViewData(Data* data); // data Ãâ·Â
+void ViewData(Data* data); // data ì¶œë ¥
 
 
 
 
 int main() {
 	Data* data = NULL;
-	Stack* stack = NewStack();
+	Stack* stack = NewStack(); //stack ë™ì í• ë‹¹ //sizeëŠ” 1ë¡œ ì´ˆê¸°í™”
 	Push(stack, NewData(3, "Rosa"));
 	Push(stack, NewData(5, "John"));
 	Push(stack, NewData(1, "Kim"));
@@ -46,7 +51,7 @@ int main() {
 
 	printf("%-5s %-10s\n", "num", "name");
 	
-	while (!IsEmpty(stack)) { // ½ºÅÃÀÌ ºñ¾îÀÖÁö ¾Ê´Ù¸é ¹Ýº¹
+	while (!IsEmpty(stack)) { // ìŠ¤íƒì´ ë¹„ì–´ìžˆì§€ ì•Šë‹¤ë©´ ë°˜ë³µ
 		data = (Data*)Pop(stack);
 		ViewData(data);
 		DeleteData(data); 
@@ -54,13 +59,13 @@ int main() {
 	DeleteStack(stack); 
 	return 0;
 }
-Stack* NewStack() {
+Stack* NewStack() { 
 	Stack* stack = (Stack*)malloc(sizeof(Stack));
 	InitStack(stack, 1);
 	return stack;
 }
-void InitStack(Stack* stack, int ssize) {
-	stack->buf = (Element*)malloc(sizeof(Element)*ssize);
+void InitStack(Stack* stack, int ssize) {  
+	stack->buf = (Element*)malloc(sizeof(Element)*ssize); //ì´ˆê¸°í™”ì‹œ bufë„ sizeë§Œí¼ í• ë‹¹í•„ìš”
 	stack->ssize = ssize;
 	stack->top = -1;
 }
@@ -81,8 +86,7 @@ void Push(Stack *stack, Element data) {
 	if (IsFull(stack)) {
 		Expand(stack);
 	}
-	stack->top++;
-	stack->buf[stack->top] = data;
+	stack->buf[++stack->top] = data;
 }
 Element Pop(Stack *stack) {
 	Element re = 0;
@@ -90,16 +94,16 @@ Element Pop(Stack *stack) {
 		printf("Empty stack!");
 		return re;
 	}
-	re = stack->buf[stack->top];
-	stack->top--;
-	return re;
+	return stack->buf[stack->top--];
 }
 void Expand(Stack* stack) {
 	stack->ssize *= 2;
-	stack->buf = (Element*)realloc(stack->buf, sizeof(Element) * stack->ssize);
+	stack->buf = (Element*)realloc(stack->buf, sizeof(Element) * stack->ssize); 
+	//rellocì˜ ë°˜í™˜íƒ€ìž…ì€ void*ì´ë¯€ë¡œ í˜•ë³€í™˜í•´ì£¼ì–´ì•¼ í•œë‹¤.
+	//bufì— ì‚¬ì´ì¦ˆë¥¼ 2ë°° ì¦ê°€
 }
 
-Data* NewData(int num, const char* name) {  // nameÀÇ °ª º¯°æ ºÒ°¡
+Data* NewData(int num, const char* name) {  // nameì˜ ê°’ ë³€ê²½ ë¶ˆê°€
 	Data* data = (Data*)malloc(sizeof(Data));
 	data->num = num;
 	data->name = (char*)malloc(strlen(name)+1); 
