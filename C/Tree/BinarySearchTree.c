@@ -39,15 +39,17 @@ void in_order(TreeNode* node) {
 int main() {
 	TreeNode* root = NULL;
 	TreeNode* tmp = NULL;
-	root = insert_node(root, 30);
-	root = insert_node(root, 20);
-	root = insert_node(root, 10);
-	root = insert_node(root, 40);
-	root = insert_node(root, 50);
-	root = insert_node(root, 60);
-	root = insert_node(root, 35);
-	root = insert_node(root, 45);
-
+	root = insert_node(root, 19);
+	root = insert_node(root, 6);
+	root = insert_node(root, 8);
+	root = insert_node(root, 11);
+	root = insert_node(root, 4);
+	root = insert_node(root, 5);
+	root = insert_node(root, 27);
+	root = insert_node(root, 43);
+	root = insert_node(root, 49);
+	root = insert_node(root, 31);
+	root = insert_node(root, 25);
 	printf("\nBinary search Tree Travalsal result\n");
 	in_order(root);
 	printf("\n\n");
