@@ -1,0 +1,22 @@
+자료구조 알고리즘 공부 계획
+
+★1일 1comit으로 이해되면 넘어가기★
+
+순서 :
+(알고리즘) 
+1.삽입정렬
+2.버블정렬
+3.선택정렬
+4.counSort
+5.shakerSort
+6.셸정렬
+7.힙정렬
+8.병합정렬
+9.퀵정렬
+
+10. vactor
+11.ArrayList
+12.linkedList
+13.stack - c언어완료 + realloc 추가하기
+14.queue
+15.hash 와 tree
