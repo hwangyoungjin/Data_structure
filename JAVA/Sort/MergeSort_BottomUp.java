@@ -14,13 +14,11 @@ public class MergeSortBottomUp {
         System.out.println("before : "+ Arrays.toString(src));
         mergesort(src);
         System.out.println("after : "+ Arrays.toString(src));
-        System.out.println("merge() 호출 횟수 : " + count);
     }
 
     // Merge two sorted subArrays `src[start...mid]` and `src[mid+1 ... end]`
     public static void merge(int[] src, int[] tmp, int start, int mid, int end)
     {
-        count++;
         int front = start, tmpIdx = start, back = mid + 1;
 
         // loop till no elements are lef in the left and right runts
